@@ -6,3 +6,43 @@ data_ingestion:
   source_URL: https://github.com/ajaychaudhary8104/Datasets/raw/refs/heads/main/customer.zip
   local_data_file: artifacts/data_ingestion/data.zip
   unzip_dir: artifacts/data_ingestion
+
+data_validation:
+  root_dir: artifacts/data_validation
+  STATUS_FILE: artifacts/data_validation/status.txt
+  unzip_data_dir: artifacts/data_ingestion
+
+  all_schema:
+    CustomerID: object
+    Count: int64
+    Country: object
+    State: object
+    City: object
+    Zip Code: int64
+    Lat Long: object
+    Latitude: float64
+    Longitude: float64
+    Gender: object
+    Senior Citizen: object
+    Partner: object
+    Dependents: object
+    Tenure Months: int64
+    Phone Service: object
+    Multiple Lines: object
+    Internet Service: object
+    Online Security: object
+    Online Backup: object
+    Device Protection: object
+    Tech Support: object
+    Streaming TV: object
+    Streaming Movies: object
+    Contract: object
+    Paperless Billing: object
+    Payment Method: object
+    Monthly Charges: float64
+    Total Charges: object
+    Churn Label: object
+    Churn Value: int64
+    Churn Score: int64
+    CLTV: int64
+    Churn Reason: object
