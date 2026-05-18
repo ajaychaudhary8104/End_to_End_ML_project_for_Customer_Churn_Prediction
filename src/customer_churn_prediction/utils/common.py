@@ -1,7 +1,7 @@
 import os
 from box.exceptions import BoxValueError
 import yaml
-from customer_churn_prediction import logger
+from src.customer_churn_prediction import logger
 import json
 import joblib
 from ensure import ensure_annotations
