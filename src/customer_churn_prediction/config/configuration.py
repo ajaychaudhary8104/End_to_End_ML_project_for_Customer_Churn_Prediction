@@ -1,6 +1,6 @@
 from src.customer_churn_prediction.constants import *
 from src.customer_churn_prediction.utils.common import read_yaml, create_directories
-from src.customer_churn_prediction.entity.config_entity import DataIngestionConfig, DataValidationConfig
+from src.customer_churn_prediction.entity.config_entity import DataIngestionConfig, DataPreprocessingConfig, DataValidationConfig
 
 class ConfigurationManager:
     def __init__(self, config_filepath = CONFIG_FILE_PATH, params_filepath = PARAMS_FILE_PATH):
@@ -41,3 +41,22 @@ class ConfigurationManager:
         )
 
         return data_validation_config
+    
+
+    def get_data_preprocessing_config(self) -> DataPreprocessingConfig:
+        config = self.config.data_preprocessing
+
+        create_directories([config.root_dir])
+
+        data_preprocessing_config = DataPreprocessingConfig(
+            root_dir=config.root_dir,
+            raw_data_dir=config.raw_data_dir,
+            input_file_name=config.input_file_name,
+            processed_data_file=config.processed_data_file,
+            target_column=config.target_column,
+            numeric_columns=list(config.numeric_columns),
+            categorical_columns=list(config.categorical_columns),
+            drop_columns=list(config.drop_columns)
+        )
+
+        return data_preprocessing_config
