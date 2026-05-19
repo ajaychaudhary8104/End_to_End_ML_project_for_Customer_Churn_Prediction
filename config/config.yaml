@@ -64,3 +64,42 @@ data_preprocessing:
     - Churn Score
     - CLTV
     - Churn Reason   
+
+data_transformation:
+  root_dir: artifacts/data_transformation
+  split_artifacts_dir: artifacts/data_transformation/split_data
+  input_file_path: artifacts/data_preprocessing/processed_data.csv
+  train_file_path: artifacts/data_transformation/split_data/train.csv
+  validation_file_path: artifacts/data_transformation/split_data/validation.csv
+  test_file_path: artifacts/data_transformation/split_data/test.csv
+  test_size: 0.15
+  validation_size: 0.15
+  random_state: 42
+  target_column: Churn Value 
+  numerical_columns:
+    - Tenure Months
+    - Monthly Charges
+    - Total Charges
+    - Latitude
+    - Longitude
+    - Avg Monthly Spend
+    - LongTermCustomer
+    - HighMonthlyCharges
+    - TotalServices
+  categorical_columns:
+    - Gender
+    - Senior Citizen
+    - Partner
+    - Dependents
+    - Phone Service
+    - Multiple Lines
+    - Internet Service
+    - Online Security
+    - Online Backup
+    - Device Protection
+    - Tech Support
+    - Streaming TV
+    - Streaming Movies
+    - Contract
+    - Paperless Billing
+    - Payment Method

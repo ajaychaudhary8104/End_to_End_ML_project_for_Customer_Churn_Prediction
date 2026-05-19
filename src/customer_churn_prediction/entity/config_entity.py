@@ -25,3 +25,19 @@ class DataPreprocessingConfig:
     input_file_name: str
     processed_data_file: Path
     drop_columns: list
+
+
+@dataclass(frozen=True)
+class DataTransformationConfig:
+    root_dir: Path
+    input_file_path: Path
+    train_file_path: Path
+    validation_file_path: Path
+    test_file_path: Path
+    test_size: float
+    validation_size: float
+    random_state: int
+    target_column: str
+    split_artifacts_dir: Path
+    numerical_columns: list
+    categorical_columns: list
