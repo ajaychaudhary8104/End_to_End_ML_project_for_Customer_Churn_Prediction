@@ -24,7 +24,4 @@ class DataPreprocessingConfig:
     raw_data_dir: Path
     input_file_name: str
     processed_data_file: Path
-    target_column: str
-    numeric_columns: list
-    categorical_columns: list
     drop_columns: list

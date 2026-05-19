@@ -52,33 +52,6 @@ data_preprocessing:
   raw_data_dir: artifacts/data_ingestion
   input_file_name: data.csv
   processed_data_file: artifacts/data_preprocessing/processed_data.csv
-  target_column: Churn Value
-  numeric_columns:
-    - Tenure Months
-    - Monthly Charges
-    - Total Charges
-    - Churn Score
-    - CLTV
-    - Latitude
-    - Longitude
-  categorical_columns:
-    - Gender
-    - Senior Citizen
-    - Partner
-    - Dependents
-    - Phone Service
-    - Multiple Lines
-    - Internet Service
-    - Online Security
-    - Online Backup
-    - Device Protection
-    - Tech Support
-    - Streaming TV
-    - Streaming Movies
-    - Contract
-    - Paperless Billing
-    - Payment Method
-    - Churn Label
   drop_columns:
     - CustomerID
     - Count

@@ -53,9 +53,6 @@ class ConfigurationManager:
             raw_data_dir=config.raw_data_dir,
             input_file_name=config.input_file_name,
             processed_data_file=config.processed_data_file,
-            target_column=config.target_column,
-            numeric_columns=list(config.numeric_columns),
-            categorical_columns=list(config.categorical_columns),
             drop_columns=list(config.drop_columns)
         )
 
