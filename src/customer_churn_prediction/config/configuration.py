@@ -1,6 +1,6 @@
 from src.customer_churn_prediction.constants import *
 from src.customer_churn_prediction.utils.common import read_yaml, create_directories
-from src.customer_churn_prediction.entity.config_entity import DataIngestionConfig, DataValidationConfig, DataTransformationConfig, DataPreprocessingConfig
+from src.customer_churn_prediction.entity.config_entity import DataIngestionConfig, DataValidationConfig, DataTransformationConfig, DataPreprocessingConfig, ModelTrainingConfig
 
 class ConfigurationManager:
     def __init__(self, config_filepath = CONFIG_FILE_PATH, params_filepath = PARAMS_FILE_PATH):
@@ -80,3 +80,21 @@ class ConfigurationManager:
         )
 
         return data_transformation_config    
+    
+
+    def get_model_training_config(self) -> ModelTrainingConfig:
+        config = self.config.model_training
+
+        create_directories([config.root_dir])
+
+        model_training_config = ModelTrainingConfig(
+            root_dir=config.root_dir,
+            train_file_path=config.train_file_path,
+            validation_file_path=config.validation_file_path,
+            model_file_path=config.model_file_path,
+            metrics_file_path=config.metrics_file_path,
+            model_params=dict(self.params.model_params),
+            target_column=config.target_column
+        )
+
+        return model_training_config 

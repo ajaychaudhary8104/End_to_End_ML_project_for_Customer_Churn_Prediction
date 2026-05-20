@@ -3,6 +3,8 @@ from src.customer_churn_prediction.pipeline.stage_01_data_ingestion import DataI
 from src.customer_churn_prediction.pipeline.stage_02_data_validation import DataValidationTrainingPipeline
 from src.customer_churn_prediction.pipeline.stage_03_data_preprocessing import DataPreprocessingTrainingPipeline
 from src.customer_churn_prediction.pipeline.stage_04_data_transformation import DataTransformationTrainingPipeline
+from src.customer_churn_prediction.pipeline.stage_05_model_training import ModelTrainingPipeline
+
 
 STAGE_NAME = "Data Ingestion stage"
 try:
@@ -42,6 +44,17 @@ try:
    logger.info(f">>>>>> stage {STAGE_NAME} started <<<<<<")
    data_transformation = DataTransformationTrainingPipeline()
    data_transformation.main()
+   logger.info(f">>>>>> stage {STAGE_NAME} completed <<<<<<\n\nx==========x")
+except Exception as e:
+        logger.exception(e)
+        raise e
+
+
+STAGE_NAME = "Model Training stage"
+try:
+   logger.info(f">>>>>> stage {STAGE_NAME} started <<<<<<")
+   model_training = ModelTrainingPipeline()
+   model_training.main()
    logger.info(f">>>>>> stage {STAGE_NAME} completed <<<<<<\n\nx==========x")
 except Exception as e:
         logger.exception(e)
