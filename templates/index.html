@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Customer Churn Prediction</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+        }
+
+        body{
+            font-family:'Inter',sans-serif;
+            background:#f1f5f9;
+            color:#0f172a;
+            padding:40px 20px;
+        }
+
+        .container{
+            max-width:1400px;
+            margin:auto;
+        }
+
+        .hero{
+            text-align:center;
+            margin-bottom:40px;
+        }
+
+        .hero h1{
+            font-size:3rem;
+            font-weight:700;
+            margin-bottom:15px;
+            color:#0f172a;
+        }
+
+        .hero p{
+            color:#64748b;
+            font-size:1.1rem;
+            max-width:750px;
+            margin:auto;
+            line-height:1.8;
+        }
+
+        .main-grid{
+            display:grid;
+            grid-template-columns:1.4fr 0.6fr;
+            gap:30px;
+        }
+
+        .card{
+            background:#fff;
+            border-radius:20px;
+            padding:35px;
+            box-shadow:0 10px 30px rgba(0,0,0,0.08);
+        }
+
+        .card-title{
+            font-size:1.5rem;
+            margin-bottom:30px;
+            font-weight:700;
+        }
+
+        .form-grid{
+            display:grid;
+            grid-template-columns:repeat(2,1fr);
+            gap:20px;
+        }
+
+        .form-group{
+            display:flex;
+            flex-direction:column;
+        }
+
+        label{
+            margin-bottom:8px;
+            font-weight:600;
+            font-size:0.95rem;
+        }
+
+        input,select{
+            padding:14px;
+            border-radius:12px;
+            border:1px solid #cbd5e1;
+            font-size:0.95rem;
+        }
+
+        input:focus,
+        select:focus{
+            outline:none;
+            border-color:#2563eb;
+            box-shadow:0 0 0 4px rgba(37,99,235,0.15);
+        }
+
+        .submit-btn{
+            margin-top:30px;
+            width:100%;
+            padding:16px;
+            border:none;
+            border-radius:14px;
+            background:#2563eb;
+            color:white;
+            font-size:1rem;
+            font-weight:700;
+            cursor:pointer;
+            transition:0.3s;
+        }
+
+        .submit-btn:hover{
+            background:#1d4ed8;
+        }
+
+        .stats{
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            gap:16px;
+            margin-bottom:25px;
+        }
+
+        .stat{
+            background:#f8fafc;
+            padding:20px;
+            border-radius:16px;
+            text-align:center;
+        }
+
+        .stat h2{
+            color:#2563eb;
+            margin-bottom:8px;
+        }
+
+        .result-box{
+            margin-top:20px;
+            border-radius:18px;
+            padding:25px;
+            display:none;
+            text-align:center;
+        }
+
+        .success{
+            background:#dcfce7;
+            border:1px solid #22c55e;
+        }
+
+        .danger{
+            background:#fee2e2;
+            border:1px solid #ef4444;
+        }
+
+        .result-title{
+            font-size:1.6rem;
+            font-weight:700;
+            margin-bottom:10px;
+        }
+
+        .probability{
+            margin-top:10px;
+            font-size:2rem;
+            font-weight:700;
+        }
+
+        .footer{
+            margin-top:50px;
+            text-align:center;
+            color:#64748b;
+        }
+
+        @media(max-width:1000px){
+
+            .main-grid{
+                grid-template-columns:1fr;
+            }
+
+            .form-grid{
+                grid-template-columns:1fr;
+            }
+
+            .hero h1{
+                font-size:2.2rem;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="hero">
+        <h1>Customer Churn Prediction</h1>
+        <p>
+            Production-grade AI-powered churn prediction system using FastAPI,
+            XGBoost, Docker, AWS and MLOps pipeline automation.
+        </p>
+    </div>
+
+    <div class="main-grid">
+
+        <!-- LEFT -->
+
+        <div class="card">
+
+            <h2 class="card-title">Customer Information</h2>
+
+            <form id="predictionForm">
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+                        <label>Gender</label>
+                        <select name="Gender">
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Senior Citizen</label>
+                        <select name="Senior Citizen">
+                            <option value="0">No</option>
+                            <option value="1">Yes</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Partner</label>
+                        <select name="Partner">
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Dependents</label>
+                        <select name="Dependents">
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Phone Service</label>
+                        <select name="Phone Service">
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Multiple Lines</label>
+                        <select name="Multiple Lines">
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="No phone service">No phone service</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Internet Service</label>
+                        <select name="Internet Service">
+                            <option value="DSL">DSL</option>
+                            <option value="Fiber optic">Fiber optic</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Online Security</label>
+                        <select name="Online Security">
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="No internet service">No internet service</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Online Backup</label>
+                        <select name="Online Backup">
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="No internet service">No internet service</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Device Protection</label>
+                        <select name="Device Protection">
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="No internet service">No internet service</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Tech Support</label>
+                        <select name="Tech Support">
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="No internet service">No internet service</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Streaming TV</label>
+                        <select name="Streaming TV">
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="No internet service">No internet service</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Streaming Movies</label>
+                        <select name="Streaming Movies">
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="No internet service">No internet service</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Contract</label>
+                        <select name="Contract">
+                            <option value="Month-to-month">Month-to-month</option>
+                            <option value="One year">One year</option>
+                            <option value="Two year">Two year</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Paperless Billing</label>
+                        <select name="Paperless Billing">
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Payment Method</label>
+                        <select name="Payment Method">
+                            <option value="Electronic check">Electronic check</option>
+                            <option value="Mailed check">Mailed check</option>
+                            <option value="Bank transfer (automatic)">Bank transfer</option>
+                            <option value="Credit card (automatic)">Credit card</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Tenure Months</label>
+                        <input type="number" name="Tenure Months" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Monthly Charges</label>
+                        <input type="number" step="0.01" name="Monthly Charges" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Total Charges</label>
+                        <input type="number" step="0.01" name="Total Charges" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Latitude</label>
+                        <input type="number" step="0.000001" name="Latitude" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Longitude</label>
+                        <input type="number" step="0.000001" name="Longitude" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Total Services</label>
+                        <input type="number" name="TotalServices" required>
+                    </div>
+
+                </div>
+
+                <button class="submit-btn" type="submit">
+                    Predict Customer Churn
+                </button>
+
+            </form>
+
+        </div>
+
+        <!-- RIGHT -->
+
+        <div class="card">
+
+            <h2 class="card-title">Prediction Dashboard</h2>
+
+            <div class="stats">
+
+                <div class="stat">
+                    <h2>92%</h2>
+                    <p>Model Accuracy</p>
+                </div>
+
+                <div class="stat">
+                    <h2>XGBoost</h2>
+                    <p>Algorithm</p>
+                </div>
+
+                <div class="stat">
+                    <h2>7K+</h2>
+                    <p>Customer Records</p>
+                </div>
+
+                <div class="stat">
+                    <h2>FastAPI</h2>
+                    <p>Inference API</p>
+                </div>
+
+            </div>
+
+            <div id="resultBox" class="result-box">
+
+                <div id="resultTitle" class="result-title"></div>
+
+                <p id="resultDescription"></p>
+
+                <div id="probability" class="probability"></div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="footer">
+        Production Grade Customer Churn Prediction System
+    </div>
+
+</div>
+
+<script>
+
+    const form = document.getElementById('predictionForm');
+
+    const resultBox = document.getElementById('resultBox');
+
+    const resultTitle = document.getElementById('resultTitle');
+
+    const resultDescription = document.getElementById('resultDescription');
+
+    const probability = document.getElementById('probability');
+
+    form.addEventListener('submit', async (e) => {
+
+        e.preventDefault();
+
+        const formData = new FormData(form);
+
+        const payload = {};
+
+        formData.forEach((value, key) => {
+
+            if (
+                key === "Senior Citizen" ||
+                key === "Tenure Months" ||
+                key === "TotalServices"
+            ) {
+
+                payload[key] = parseInt(value);
+
+            }
+
+            else if (
+                key === "Monthly Charges" ||
+                key === "Total Charges" ||
+                key === "Latitude" ||
+                key === "Longitude"
+            ) {
+
+                payload[key] = parseFloat(value);
+
+            }
+
+            else {
+
+                payload[key] = value;
+
+            }
+
+        });
+
+        try {
+
+            const response = await fetch('/predict', {
+
+                method: 'POST',
+
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+
+                body: JSON.stringify({
+                    input: payload
+                })
+
+            });
+
+            const result = await response.json();
+
+            if (!response.ok) {
+                throw new Error(result.detail || 'Prediction failed');
+            }
+
+            const pred = result.prediction;
+
+            const prob = result.probability || 0;
+
+            resultBox.style.display = 'block';
+
+            if (pred === 1) {
+
+                resultBox.className = 'result-box danger';
+
+                resultTitle.innerText = 'High Churn Risk';
+
+                resultDescription.innerText =
+                    'Customer is likely to churn. Retention actions recommended immediately.';
+
+            }
+
+            else {
+
+                resultBox.className = 'result-box success';
+
+                resultTitle.innerText = 'Low Churn Risk';
+
+                resultDescription.innerText =
+                    'Customer is likely to remain retained.';
+
+            }
+
+            probability.innerText =
+                `${(prob * 100).toFixed(2)}% Probability`;
+
+        }
+
+        catch(error){
+
+            console.error(error);
+
+            alert(error.message);
+
+        }
+
+    });
+
+</script>
+
+</body>
+</html>
