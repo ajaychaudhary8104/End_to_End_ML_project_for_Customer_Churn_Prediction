@@ -133,3 +133,24 @@ model_promotion:
   promote_threshold: 0.77
   archive_existing_versions: true
   copy_local_model: true
+
+
+model_inference:
+  root_dir: artifacts/inference
+  model_path: artifacts/model_training/xgboost_model.pkl
+  input_data_path: artifacts/data_ingestion/data.csv
+  prediction_output_path: artifacts/inference/predictions.csv
+  target_column: Churn Value
+  preprocessor_path: artifacts/data_transformation/preprocessor.pkl
+  drop_columns:
+    - CustomerID
+    - Count
+    - Country
+    - State
+    - City
+    - Zip Code
+    - Lat Long
+    - Churn Label
+    - Churn Score
+    - CLTV
+    - Churn Reason 
