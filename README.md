@@ -12,3 +12,8 @@ To modify the pipeline:
 6. Update pipeline stages in `pipeline/` - Update pipeline logic
 7. Update `main.py` - Execute the pipeline
 8. Update `dvc.yaml` - Define DVC pipeline stages
+
+
+set MLFLOW_TRACKING_URI=https://dagshub.com/ajaychaudhary8104/End_to_End_ML_project_for_Customer_Churn_Prediction.mlflow
+set MLFLOW_TRACKING_USERNAME=ajaychaudhary8104
+set MLFLOW_TRACKING_PASSWORD=
