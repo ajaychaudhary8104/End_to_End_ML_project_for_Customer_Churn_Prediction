@@ -5,6 +5,7 @@ from src.customer_churn_prediction.pipeline.stage_03_data_preprocessing import D
 from src.customer_churn_prediction.pipeline.stage_04_data_transformation import DataTransformationTrainingPipeline
 from src.customer_churn_prediction.pipeline.stage_05_model_training import ModelTrainingPipeline
 from src.customer_churn_prediction.pipeline.stage_06_model_evaluation import ModelEvaluationPipeline
+from src.customer_churn_prediction.pipeline.stage_07_model_promotion import ModelPromotionPipeline
 
 
 STAGE_NAME = "Data Ingestion stage"
@@ -67,6 +68,17 @@ try:
    logger.info(f">>>>>> stage {STAGE_NAME} started <<<<<<")
    model_evaluation = ModelEvaluationPipeline()
    model_evaluation.main()
+   logger.info(f">>>>>> stage {STAGE_NAME} completed <<<<<<\n\nx==========x")
+except Exception as e:
+        logger.exception(e)
+        raise e
+
+
+STAGE_NAME = "Model Promotion stage"
+try:
+   logger.info(f">>>>>> stage {STAGE_NAME} started <<<<<<")
+   model_promotion = ModelPromotionPipeline()
+   model_promotion.main()
    logger.info(f">>>>>> stage {STAGE_NAME} completed <<<<<<\n\nx==========x")
 except Exception as e:
         logger.exception(e)
