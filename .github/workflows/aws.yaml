@@ -102,20 +102,16 @@ jobs:
 
       - name: Pull Latest Docker Image
         run: |
-
           docker pull \
           ${{ secrets.AWS_ECR_LOGIN_URI }}/${{ secrets.ECR_REPOSITORY_NAME }}:latest
 
       - name: Stop Existing Container
         run: |
-
-          docker ps -aq --filter "name=customer-churn-app" | grep -q . && \
-          docker stop customer-churn-app && \
-          docker rm -fv customer-churn-app || true
+          docker stop customer-churn-app || true
+          docker rm customer-churn-app || true
 
       - name: Run Docker Container
         run: |
-
           docker run -d \
             --name customer-churn-app \
             --restart unless-stopped \
@@ -127,4 +123,4 @@ jobs:
 
       - name: Remove Unused Docker Images
         run: |
-          docker system prune -af
+          docker image prune -af
