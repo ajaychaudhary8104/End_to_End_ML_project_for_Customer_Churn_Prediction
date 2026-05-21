@@ -15,7 +15,7 @@ from pydantic import BaseModel, Field
 from src.customer_churn_prediction import logger
 from src.customer_churn_prediction.config.configuration import ConfigurationManager
 from src.customer_churn_prediction.components.inference import ModelInference
-
+from src.customer_churn_prediction.utils.s3_loader import download_artifacts
 
 # =========================================================
 # PATH CONFIGURATION
@@ -125,7 +125,12 @@ def initialize_inference() -> ModelInference:
 async def lifespan(app: FastAPI):
 
     try:
+        logger.info("Downloading model artifacts from S3...")
 
+        download_artifacts()
+
+        logger.info("Initializing inference pipeline...")
+        
         app.state.inference = initialize_inference()
 
         app.state.model_loaded = True
