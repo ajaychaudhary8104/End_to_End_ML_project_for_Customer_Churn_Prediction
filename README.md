@@ -17,3 +17,6 @@ To modify the pipeline:
 set MLFLOW_TRACKING_URI=https://dagshub.com/ajaychaudhary8104/End_to_End_ML_project_for_Customer_Churn_Prediction.mlflow
 set MLFLOW_TRACKING_USERNAME=ajaychaudhary8104
 set MLFLOW_TRACKING_PASSWORD=
+
+docker build -t churn-prediction:latest .
+docker run -p 8000:8000 churn-prediction:latest
