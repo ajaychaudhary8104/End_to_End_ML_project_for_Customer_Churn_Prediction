@@ -1,0 +1,92 @@
+stages:
+  data_ingestion:
+    cmd: python -m src.customer_churn_prediction.pipeline.stage_01_data_ingestion
+    deps:
+      - src/customer_churn_prediction/pipeline/stage_01_data_ingestion.py
+      - src/customer_churn_prediction/components/data_ingestion.py
+      - config/config.yaml
+    outs:
+      - artifacts/data_ingestion/data.csv
+
+  data_validation:
+    cmd: python -m src.customer_churn_prediction.pipeline.stage_02_data_validation
+    deps:
+      - src/customer_churn_prediction/pipeline/stage_02_data_validation.py
+      - src/customer_churn_prediction/components/data_validation.py
+      - artifacts/data_ingestion/data.csv
+      - config/config.yaml
+    outs:
+      - artifacts/data_validation/status.txt
+
+  data_preprocessing:
+    cmd: python -m src.customer_churn_prediction.pipeline.stage_03_data_preprocessing
+    deps:
+      - src/customer_churn_prediction/pipeline/stage_03_data_preprocessing.py
+      - src/customer_churn_prediction/components/data_preprocessing.py
+      - artifacts/data_ingestion/data.csv
+      - config/config.yaml
+    outs:
+      - artifacts/data_preprocessing/processed_data.csv
+
+  data_transformation:
+    cmd: python -m src.customer_churn_prediction.pipeline.stage_04_data_transformation
+    deps:
+      - src/customer_churn_prediction/pipeline/stage_04_data_transformation.py
+      - src/customer_churn_prediction/components/data_transformation.py
+      - artifacts/data_preprocessing/processed_data.csv
+      - config/config.yaml
+    outs:
+      - artifacts/data_transformation/split_data/train.csv
+      - artifacts/data_transformation/split_data/validation.csv
+      - artifacts/data_transformation/split_data/test.csv
+      - artifacts/data_transformation/preprocessor.pkl
+
+  model_training:
+    cmd: python -m src.customer_churn_prediction.pipeline.stage_05_model_training
+    deps:
+      - src/customer_churn_prediction/pipeline/stage_05_model_training.py
+      - src/customer_churn_prediction/components/model_training.py
+      - artifacts/data_transformation/split_data/train.csv
+      - artifacts/data_transformation/split_data/validation.csv
+      - artifacts/data_transformation/preprocessor.pkl
+      - config/config.yaml
+      - params.yaml
+    outs:
+      - artifacts/model_training/xgboost_model.pkl
+      - artifacts/model_training/model_metrics.json
+
+  model_evaluation:
+    cmd: python -m src.customer_churn_prediction.pipeline.stage_06_model_evaluation
+    deps:
+      - src/customer_churn_prediction/pipeline/stage_06_model_evaluation.py
+      - src/customer_churn_prediction/components/model_evaluation.py
+      - artifacts/model_training/xgboost_model.pkl
+      - artifacts/data_transformation/split_data/test.csv
+      - config/config.yaml
+      - params.yaml
+    outs:
+      - artifacts/model_evaluation/model_evaluation_metrics.json
+
+  model_promotion:
+    cmd: python -m src.customer_churn_prediction.pipeline.stage_07_model_promotion
+    deps:
+      - src/customer_churn_prediction/pipeline/stage_07_model_promotion.py
+      - src/customer_churn_prediction/components/model_promotion.py
+      - artifacts/model_evaluation/model_evaluation_metrics.json
+      - artifacts/model_training/xgboost_model.pkl
+      - config/config.yaml
+    outs:
+      - artifacts/model_promotion/promotion_summary.json
+      - artifacts/model_promotion/production_model.pkl
+
+  model_inference:
+    cmd: python -m src.customer_churn_prediction.pipeline.stage_08_inference
+    deps:
+      - src/customer_churn_prediction/pipeline/stage_08_inference.py
+      - src/customer_churn_prediction/components/inference.py
+      - artifacts/model_training/xgboost_model.pkl
+      - artifacts/data_ingestion/data.csv
+      - artifacts/data_transformation/preprocessor.pkl
+      - config/config.yaml
+    outs:
+      - artifacts/inference/predictions.csv

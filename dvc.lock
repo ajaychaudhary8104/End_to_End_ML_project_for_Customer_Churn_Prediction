@@ -1,0 +1,251 @@
+schema: '2.0'
+stages:
+  data_ingestion:
+    cmd: python -m 
+      src.customer_churn_prediction.pipeline.stage_01_data_ingestion
+    deps:
+    - path: config/config.yaml
+      hash: md5
+      md5: 149d69567a3f46075614f1541544f714
+      size: 4612
+    - path: src/customer_churn_prediction/components/data_ingestion.py
+      hash: md5
+      md5: f013c9ce2e637fd608aa6f97ebdefe14
+      size: 1723
+    - path: src/customer_churn_prediction/pipeline/stage_01_data_ingestion.py
+      hash: md5
+      md5: 312a02f0835d26b69b0455a8853a4dc0
+      size: 956
+    outs:
+    - path: artifacts/data_ingestion/data.csv
+      hash: md5
+      md5: f76bc0be503b249e4ba0f50c2206d043
+      size: 1743023
+  data_validation:
+    cmd: python -m 
+      src.customer_churn_prediction.pipeline.stage_02_data_validation
+    deps:
+    - path: artifacts/data_ingestion/data.csv
+      hash: md5
+      md5: f76bc0be503b249e4ba0f50c2206d043
+      size: 1743023
+    - path: config/config.yaml
+      hash: md5
+      md5: 149d69567a3f46075614f1541544f714
+      size: 4612
+    - path: src/customer_churn_prediction/components/data_validation.py
+      hash: md5
+      md5: 7d17ee4e0c10cacd7cd8df885ebafc1a
+      size: 12412
+    - path: src/customer_churn_prediction/pipeline/stage_02_data_validation.py
+      hash: md5
+      md5: c4c39703877e5a99a91d120038bba478
+      size: 937
+    outs:
+    - path: artifacts/data_validation/status.txt
+      hash: md5
+      md5: 4a964d292f2f4c750b8517ee736b2d8a
+      size: 344
+  data_preprocessing:
+    cmd: python -m 
+      src.customer_churn_prediction.pipeline.stage_03_data_preprocessing
+    deps:
+    - path: artifacts/data_ingestion/data.csv
+      hash: md5
+      md5: f76bc0be503b249e4ba0f50c2206d043
+      size: 1743023
+    - path: config/config.yaml
+      hash: md5
+      md5: 149d69567a3f46075614f1541544f714
+      size: 4612
+    - path: src/customer_churn_prediction/components/data_preprocessing.py
+      hash: md5
+      md5: b99a01abec777269ed52e5de3bb987d1
+      size: 5146
+    - path: 
+        src/customer_churn_prediction/pipeline/stage_03_data_preprocessing.py
+      hash: md5
+      md5: d81f827a4bb325496b7f9dd0cb606645
+      size: 971
+    outs:
+    - path: artifacts/data_preprocessing/processed_data.csv
+      hash: md5
+      md5: 16a50fbaa04c3811ab39bf1215f3a2c3
+      size: 1202832
+  data_transformation:
+    cmd: python -m 
+      src.customer_churn_prediction.pipeline.stage_04_data_transformation
+    deps:
+    - path: artifacts/data_preprocessing/processed_data.csv
+      hash: md5
+      md5: 16a50fbaa04c3811ab39bf1215f3a2c3
+      size: 1202832
+    - path: config/config.yaml
+      hash: md5
+      md5: 149d69567a3f46075614f1541544f714
+      size: 4612
+    - path: src/customer_churn_prediction/components/data_transformation.py
+      hash: md5
+      md5: 20b1d71ca05c4d32d23a99a6b070791b
+      size: 10142
+    - path: 
+        src/customer_churn_prediction/pipeline/stage_04_data_transformation.py
+      hash: md5
+      md5: 6c496ecbcdd8ef03af149901d284100c
+      size: 983
+    outs:
+    - path: artifacts/data_transformation/preprocessor.pkl
+      hash: md5
+      md5: 199320bba9a3a6c24c785086206f2c85
+      size: 4280
+    - path: artifacts/data_transformation/split_data/test.csv
+      hash: md5
+      md5: fd079eda2c1477b33ff42226820f0dfc
+      size: 371689
+    - path: artifacts/data_transformation/split_data/train.csv
+      hash: md5
+      md5: 6c6a15d4df85da6c7b8458271b482ce6
+      size: 2662023
+    - path: artifacts/data_transformation/split_data/validation.csv
+      hash: md5
+      md5: a7dea950e1553b5c889cf903ecc655f9
+      size: 371649
+  model_training:
+    cmd: python -m 
+      src.customer_churn_prediction.pipeline.stage_05_model_training
+    deps:
+    - path: artifacts/data_transformation/preprocessor.pkl
+      hash: md5
+      md5: 199320bba9a3a6c24c785086206f2c85
+      size: 4280
+    - path: artifacts/data_transformation/split_data/train.csv
+      hash: md5
+      md5: 6c6a15d4df85da6c7b8458271b482ce6
+      size: 2662023
+    - path: artifacts/data_transformation/split_data/validation.csv
+      hash: md5
+      md5: a7dea950e1553b5c889cf903ecc655f9
+      size: 371649
+    - path: config/config.yaml
+      hash: md5
+      md5: 149d69567a3f46075614f1541544f714
+      size: 4612
+    - path: params.yaml
+      hash: md5
+      md5: 04a7cfe59699c6d4b0132e5ac7074f77
+      size: 279
+    - path: src/customer_churn_prediction/components/model_training.py
+      hash: md5
+      md5: 2c027fbffbb327177fd4826ece56914f
+      size: 4206
+    - path: src/customer_churn_prediction/pipeline/stage_05_model_training.py
+      hash: md5
+      md5: 4dca022506c5af6522145bbdb1bc6569
+      size: 906
+    outs:
+    - path: artifacts/model_training/model_metrics.json
+      hash: md5
+      md5: 6edc35524e5dc95faa288ed80028892a
+      size: 259
+    - path: artifacts/model_training/xgboost_model.pkl
+      hash: md5
+      md5: e683d8adceb1c3415520fad019d04b8d
+      size: 791817
+  model_evaluation:
+    cmd: python -m 
+      src.customer_churn_prediction.pipeline.stage_06_model_evaluation
+    deps:
+    - path: artifacts/data_transformation/split_data/test.csv
+      hash: md5
+      md5: fd079eda2c1477b33ff42226820f0dfc
+      size: 371689
+    - path: artifacts/model_training/xgboost_model.pkl
+      hash: md5
+      md5: e683d8adceb1c3415520fad019d04b8d
+      size: 791817
+    - path: config/config.yaml
+      hash: md5
+      md5: 149d69567a3f46075614f1541544f714
+      size: 4612
+    - path: params.yaml
+      hash: md5
+      md5: 04a7cfe59699c6d4b0132e5ac7074f77
+      size: 279
+    - path: src/customer_churn_prediction/components/model_evaluation.py
+      hash: md5
+      md5: 344e54ce55d211a90a5eaed4e97dadcf
+      size: 10665
+    - path: src/customer_churn_prediction/pipeline/stage_06_model_evaluation.py
+      hash: md5
+      md5: 21f3e8dd6472e236629a1919ec169e9b
+      size: 1205
+    outs:
+    - path: artifacts/model_evaluation/model_evaluation_metrics.json
+      hash: md5
+      md5: c78ca9722fc14b26ff17e1d3b9918769
+      size: 1199
+  model_promotion:
+    cmd: python -m 
+      src.customer_churn_prediction.pipeline.stage_07_model_promotion
+    deps:
+    - path: artifacts/model_evaluation/model_evaluation_metrics.json
+      hash: md5
+      md5: c78ca9722fc14b26ff17e1d3b9918769
+      size: 1199
+    - path: artifacts/model_training/xgboost_model.pkl
+      hash: md5
+      md5: e683d8adceb1c3415520fad019d04b8d
+      size: 791817
+    - path: config/config.yaml
+      hash: md5
+      md5: 149d69567a3f46075614f1541544f714
+      size: 4612
+    - path: src/customer_churn_prediction/components/model_promotion.py
+      hash: md5
+      md5: 98849f76891acbb3629e8611e848d46f
+      size: 5133
+    - path: src/customer_churn_prediction/pipeline/stage_07_model_promotion.py
+      hash: md5
+      md5: 4c542614611250e33ab93d21ccb90bf7
+      size: 1068
+    outs:
+    - path: artifacts/model_promotion/production_model.pkl
+      hash: md5
+      md5: e683d8adceb1c3415520fad019d04b8d
+      size: 791817
+    - path: artifacts/model_promotion/promotion_summary.json
+      hash: md5
+      md5: 14b6f1d610324d02754b26fbb9512ed2
+      size: 267
+  model_inference:
+    cmd: python -m src.customer_churn_prediction.pipeline.stage_08_inference
+    deps:
+    - path: artifacts/data_ingestion/data.csv
+      hash: md5
+      md5: f76bc0be503b249e4ba0f50c2206d043
+      size: 1743023
+    - path: artifacts/data_transformation/preprocessor.pkl
+      hash: md5
+      md5: 199320bba9a3a6c24c785086206f2c85
+      size: 4280
+    - path: artifacts/model_training/xgboost_model.pkl
+      hash: md5
+      md5: e683d8adceb1c3415520fad019d04b8d
+      size: 791817
+    - path: config/config.yaml
+      hash: md5
+      md5: 149d69567a3f46075614f1541544f714
+      size: 4612
+    - path: src/customer_churn_prediction/components/inference.py
+      hash: md5
+      md5: 03861994e36f4d88b58fe4fdf94df24b
+      size: 10605
+    - path: src/customer_churn_prediction/pipeline/stage_08_inference.py
+      hash: md5
+      md5: e9ad4fa7ccc7645170ee17af2ea28de4
+      size: 1001
+    outs:
+    - path: artifacts/inference/predictions.csv
+      hash: md5
+      md5: 3ecf4676a1b4ea911e1bdbe6920cef14
+      size: 1833723
