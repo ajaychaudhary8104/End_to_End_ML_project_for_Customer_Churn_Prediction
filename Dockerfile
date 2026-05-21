@@ -11,7 +11,7 @@ RUN apt-get update && \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy dependency files first
-COPY requirements-prod.txt .
+COPY requirements.txt .
 COPY setup.py .
 COPY README.md* .
 
@@ -19,7 +19,7 @@ COPY README.md* .
 RUN pip install --upgrade pip setuptools wheel
 
 # Install dependencies
-RUN pip install --only-binary=:all: -r requirements-prod.txt
+RUN pip install --only-binary=:all: -r requirements.txt
 
 # Copy project
 COPY . .
